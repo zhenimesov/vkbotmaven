@@ -1,6 +1,4 @@
-package org.example.command.RPcommand;
-
-import org.example.gson.parser.modules.People;
+package kz.tamoha.vkbotmaven.command.RPcommand;
 
 public enum enumOfRp {
     уебать(" Уебал игрока"), поцеловать(" Поцеловал игрока"), обнять(" Обнял игрока");

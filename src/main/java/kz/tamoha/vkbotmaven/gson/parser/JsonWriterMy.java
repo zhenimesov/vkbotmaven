@@ -1,18 +1,11 @@
-package org.example.gson.parser;
+package kz.tamoha.vkbotmaven.gson.parser;
 
-import api.longpoll.bots.LongPollBot;
-import api.longpoll.bots.exceptions.VkApiException;
-import api.longpoll.bots.methods.impl.users.Get;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.Main;
-import org.example.gson.parser.modules.People;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import kz.tamoha.vkbotmaven.gson.parser.modules.People;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 public class JsonWriterMy{
     People people = new People("Tamokha","Khasbulatov",2712713819l);

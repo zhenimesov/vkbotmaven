@@ -1,7 +1,7 @@
-package org.example.gson.parser;
+package kz.tamoha.vkbotmaven.gson.parser;
 
 import com.google.gson.Gson;
-import org.example.gson.parser.modules.Root;
+import kz.tamoha.vkbotmaven.gson.parser.modules.Root;
 
 import java.io.FileReader;
 

@@ -1,4 +1,4 @@
-package org.example.gson.parser.modules;
+package kz.tamoha.vkbotmaven.gson.parser.modules;
 
 public class People {
     private long id;

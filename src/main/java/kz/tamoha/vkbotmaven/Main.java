@@ -1,23 +1,33 @@
-package org.example;
+package kz.tamoha.vkbotmaven;
 
 import api.longpoll.bots.LongPollBot;
 import api.longpoll.bots.exceptions.VkApiException;
 import api.longpoll.bots.model.events.messages.MessageNew;
 import api.longpoll.bots.model.objects.basic.Message;
-import com.google.gson.Gson;
-import org.example.command.Anecdote;
-import org.example.command.RPcommand.enumOfRp;
-import org.example.gson.parser.JsonWriterMy;
-import org.example.gson.parser.modules.People;
+import kz.tamoha.vkbotmaven.command.Anecdote;
+import kz.tamoha.vkbotmaven.command.RPcommand.enumOfRp;
+import kz.tamoha.vkbotmaven.gson.parser.JsonWriterMy;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.io.IoBuilder;
 
 import java.util.*;
 
 
 public class Main extends LongPollBot {
 
+    static {
+        /* for logging */
+        System.setErr(IoBuilder.forLogger().setLevel(Level.ERROR).buildPrintStream());
+        System.setOut(IoBuilder.forLogger().setLevel(Level.INFO).buildPrintStream());
+    }
+
     @Override
     public void onMessageNew(MessageNew messageNew) {
         Message message = messageNew.getMessage();
+
+        System.out.printf("[*] New message: %s | %s | %s - %s",
+                message.getPeerId(), message.getFromId(), message.getText(), message);
+
         String text = message.getText();
         enumOfRp hug = enumOfRp.обнять;
         enumOfRp kickoff = enumOfRp.уебать;
@@ -139,8 +149,6 @@ public class Main extends LongPollBot {
     public static void main(String[] args) throws VkApiException {
 
         new Main().startPolling();
-
-
 
     }
 }

@@ -1,4 +1,4 @@
-package org.example.command;
+package kz.tamoha.vkbotmaven.command;
 
 import java.util.Arrays;
 import java.util.Random;

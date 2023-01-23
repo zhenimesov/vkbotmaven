@@ -1,4 +1,4 @@
-package org.example.gson.parser.modules;
+package kz.tamoha.vkbotmaven.gson.parser.modules;
 
 import com.google.gson.annotations.SerializedName;
 
