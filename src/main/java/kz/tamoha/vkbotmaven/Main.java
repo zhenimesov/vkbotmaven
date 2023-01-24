@@ -6,7 +6,6 @@ import api.longpoll.bots.exceptions.VkApiResponseException;
 import api.longpoll.bots.model.events.messages.MessageNew;
 import api.longpoll.bots.model.objects.basic.Message;
 import kz.tamoha.vkbotmaven.command.Anecdote;
-import kz.tamoha.vkbotmaven.command.RPcommand.enumOfRp;
 import kz.tamoha.vkbotmaven.gson.parser.JsonWriterMy;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.io.IoBuilder;
@@ -25,25 +24,22 @@ public class Main extends LongPollBot {
     @Override
     public void onMessageNew(MessageNew messageNew) {
         try {
-            Message message = messageNew.getMessage();
+            Message message=messageNew.getMessage();
 
             System.out.printf("[*] New message: %s | %s | %s - %s",
                     message.getPeerId(), message.getFromId(), message.getText(), message);
 
-            String text = message.getText();
-            enumOfRp hug = enumOfRp.обнять;
-            enumOfRp kickoff = enumOfRp.уебать;
-            enumOfRp kiss = enumOfRp.поцеловать;
-            JsonWriterMy jwm = new JsonWriterMy();
+            String text=message.getText();
+            JsonWriterMy jwm=new JsonWriterMy();
             jwm.createPeopleObject();
 
 
 //Команды
             if (text.length() > 0 && text.charAt(0) == '!') {
-                String[] params = text.substring(1).split(" ");
-                String command = params[0].toLowerCase();
+                String[] params=text.substring(1).split(" ");
+                String command=params[0].toLowerCase();
                 if (command != null) {
-                    String[] args = Arrays.copyOfRange(params, 1, params.length);
+                    String[] args=Arrays.copyOfRange(params, 1, params.length);
                     //Команды бота
                     switch (command) {
                         case "помощь": {
@@ -58,7 +54,7 @@ public class Main extends LongPollBot {
                         }
                         break;
                         case "анекдот": {
-                            Anecdote anecdote = new Anecdote();
+                            Anecdote anecdote=new Anecdote();
                             vk.messages.send()
                                     .setPeerId(message.getPeerId())
                                     .setMessage(anecdote.getAnecdote())
@@ -76,8 +72,7 @@ public class Main extends LongPollBot {
                                     .setPeerId(message.getPeerId())
                                     .setMessage("Добро пожаловать)\n" +
                                             "Бот был создан в развлекательном характере\n" +
-                                            "Создатель бота : vk.com/tamoha \n" +
-                                            "Все права защищены☻")
+                                            "Создатель бота : vk.com/tamoha \n")
                                     .execute();
 
                         }
@@ -88,7 +83,7 @@ public class Main extends LongPollBot {
                                     .setChatId(message.getPeerId() - 2000000000)
                                     .setTitle(message.getText().substring(3))
                                     .execute();
-                            String n = "Имя беседы успешно было изменено на :\n";
+                            String n="Имя беседы успешно было изменено на :\n";
                             vk.messages.send()
                                     .setPeerId(message.getPeerId())
                                     .setMessage(n + message.getText().substring(3))
@@ -96,13 +91,7 @@ public class Main extends LongPollBot {
 
                         }
                         break;
-                        ///РП КОМАНДЫ
-                        case "уебать": {
-                            vk.messages.send().setPeerId(message.getPeerId())
-                                    .setMessage(vk.utils.resolveScreenName() + kickoff.getDoIt());
 
-                        }
-                        break;
                         // Если не подошла, другая или иная команда:
                         default:
                             try {
@@ -123,7 +112,7 @@ public class Main extends LongPollBot {
     }
 
     private List<Message> replyMessages(Message message) {
-        List<Message> messages = message.getFwdMessages();
+        List<Message> messages=message.getFwdMessages();
         if (message.getReplyMessage() != null) messages.add(0, message.getReplyMessage());
 
         return messages;
@@ -131,7 +120,7 @@ public class Main extends LongPollBot {
 
 
     private void kickCommand(Message message) throws VkApiException {
-        List<Message> replyMessages = replyMessages(message);
+        List<Message> replyMessages=replyMessages(message);
 
         if (replyMessages.size() == 0) {
             vk.messages.send()
@@ -141,9 +130,9 @@ public class Main extends LongPollBot {
             return;
         }
 
-        StringBuilder sb = new StringBuilder("Пользовател" + (replyMessages.size() == 1 ? "ь" : "и"));
+        StringBuilder sb=new StringBuilder("Пользовател" + (replyMessages.size() == 1 ? "ь" : "и"));
         for (Message replyMessage : replyMessages) {
-            int fromId = replyMessage.getFromId();
+            int fromId=replyMessage.getFromId();
             sb.append("\n")
                     .append(fromId > 0 ? "@id" + fromId : "@club" + (fromId / -1));
             try {
@@ -173,8 +162,6 @@ public class Main extends LongPollBot {
     }
 
     public static void main(String[] args) throws VkApiException {
-
         new Main().startPolling();
-
     }
 }
