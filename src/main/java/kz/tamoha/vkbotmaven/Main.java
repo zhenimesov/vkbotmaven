@@ -6,6 +6,7 @@ import api.longpoll.bots.exceptions.VkApiResponseException;
 import api.longpoll.bots.model.events.messages.MessageNew;
 import api.longpoll.bots.model.objects.basic.Message;
 import kz.tamoha.vkbotmaven.command.Anecdote;
+import kz.tamoha.vkbotmaven.gson.GetUserExample;
 import kz.tamoha.vkbotmaven.gson.parser.JsonWriterMy;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.io.IoBuilder;
@@ -14,6 +15,10 @@ import java.util.*;
 
 
 public class Main extends LongPollBot {
+    static {
+        JsonWriterMy jwm=new JsonWriterMy();
+        jwm.createPeopleObject();
+    }
 
     static {
         /* for logging */
@@ -29,6 +34,7 @@ public class Main extends LongPollBot {
             System.out.printf("[*] New message: %s | %s | %s - %s",
                     message.getPeerId(), message.getFromId(), message.getText(), message);
 
+            GetUserExample gu = new GetUserExample();
             String text=message.getText();
             JsonWriterMy jwm=new JsonWriterMy();
             jwm.createPeopleObject();
@@ -91,6 +97,12 @@ public class Main extends LongPollBot {
 
                         }
                         break;
+                        case "уебать":{
+                            vk.messages.send()
+                                    .setPeerId(message.getPeerId())
+                                    .setMessage("@id" + message.getFromId()+ "уебал игрока :" + "@id" )
+                                    .execute();
+                        }
 
                         // Если не подошла, другая или иная команда:
                         default:
@@ -163,5 +175,7 @@ public class Main extends LongPollBot {
 
     public static void main(String[] args) throws VkApiException {
         new Main().startPolling();
+
+
     }
 }

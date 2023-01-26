@@ -4,8 +4,23 @@ public class People {
     private long id;
     private String first_name;
     private String last_name;
+    private int screen_name;
 
-    public People(String first_name, String last_name, long id){
+
+    public void setId(long id) {
+        this.id=id;
+    }
+
+    public int getScreen_name() {
+        return screen_name;
+    }
+
+    public void setScreen_name(int screen_name) {
+        this.screen_name=screen_name;
+    }
+
+
+    public People(String first_name){
         this.first_name = first_name;
         this.last_name = last_name;
         this.id = id;
@@ -36,11 +51,12 @@ public class People {
     }
 
     @Override
-    public String toString(){
-        return "People{"+
-                "first_name='" + first_name + '\''+
-                ", last_name=" + last_name +
-                ", id=" + id +
+    public String toString() {
+        return "People{" +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", screen_name=" + screen_name +
                 '}';
     }
 }

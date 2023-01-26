@@ -5,26 +5,29 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Root {
-    @SerializedName("first_name")
-    private String name;
+    private String first_name;
     private String last_name;
     private int id;
+    private int screen_name;
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
 
     public int getId() {
         return id;
     }
-    public String getLast_name(){
-        return last_name;
-    }
-    public String getName(){
-        return name;
-        }
 
-    @Override
-    public String toString(){
-        return "Root{"+
-                "first_name='" + name + '\''+
-                ", last_name=" + last_name +
-                ", id=" + id +
-                '}';
-}}
+    public int getScreen_name() {
+        return screen_name;
+    }
+
+
+
+
+
+
+}
