@@ -1,24 +1,28 @@
 package kz.tamoha.vkbotmaven;
 
-import api.longpoll.bots.LongPollBot;
 import api.longpoll.bots.exceptions.VkApiException;
-import api.longpoll.bots.exceptions.VkApiResponseException;
-import api.longpoll.bots.model.events.messages.MessageNew;
-import api.longpoll.bots.model.objects.basic.Message;
-import kz.tamoha.vkbotmaven.command.Anecdote;
-import kz.tamoha.vkbotmaven.gson.GetUserExample;
-import kz.tamoha.vkbotmaven.gson.parser.JsonWriterMy;
+import api.longpoll.bots.methods.VkBotsMethods;
+import kz.tamoha.vkbotmaven.command.api.impl.SimpleCommandManager;
+import kz.tamoha.vkbotmaven.data.Config;
+import kz.tamoha.vkbotmaven.data.LocalData;
+import kz.tamoha.vkbotmaven.longpoll.LongPollHandler;
+import kz.tamoha.vkbotmaven.manager.Manager;
+import kz.tamoha.vkbotmaven.manager.impl.ManagerImpl;
+import lombok.Getter;
+import lombok.val;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.io.IoBuilder;
 
-import java.util.*;
+import java.io.IOException;
+import java.nio.file.Paths;
 
-
-public class Main extends LongPollBot {
-    static {
-        JsonWriterMy jwm=new JsonWriterMy();
-        jwm.createPeopleObject();
-    }
+/**
+ * @author Ferius_057 (Charles_Grozny)
+ * @date ⭐ 27.01.2023 | 1:55 ⭐
+ */
+public class Main {
+    @Getter
+    private static Manager manager;
 
     static {
         /* for logging */
@@ -26,156 +30,26 @@ public class Main extends LongPollBot {
         System.setOut(IoBuilder.forLogger().setLevel(Level.INFO).buildPrintStream());
     }
 
-    @Override
-    public void onMessageNew(MessageNew messageNew) {
-        try {
-            Message message=messageNew.getMessage();
+    public static void main(String[] args) throws IOException, VkApiException {
+        val localData = new LocalData();
+        localData.setTimeStartMs(System.currentTimeMillis()); // установка времени запуска
+        System.out.printf("Run in %s %n", localData.getTimeStart());
 
-            System.out.printf("[*] New message: %s | %s | %s - %s",
-                    message.getPeerId(), message.getFromId(), message.getText(), message);
+        val config = Config.load(Paths.get("config.properties"));
 
-            GetUserExample gu = new GetUserExample();
-            String text=message.getText();
-            JsonWriterMy jwm=new JsonWriterMy();
-            jwm.createPeopleObject();
+        manager = new ManagerImpl(
+                new VkBotsMethods(config.getToken()), localData
+        );
 
+        val commandManager = SimpleCommandManager.create(manager);
 
-//Команды
-            if (text.length() > 0 && text.charAt(0) == '!') {
-                String[] params=text.substring(1).split(" ");
-                String command=params[0].toLowerCase();
-                if (command != null) {
-                    String[] args=Arrays.copyOfRange(params, 1, params.length);
-                    //Команды бота
-                    switch (command) {
-                        case "помощь": {
-                            vk.messages.send()
-                                    .setPeerId(message.getPeerId())
-                                    .setMessage("Все команды пишутся с префиксом : !\n" +
-                                            "\n" +
-                                            "grname :  Изменить имя беседы\n" +
-                                            "кик :     Кикает человека\n" +
-                                            "анекдот : Случайный анекдот !")
-                                    .execute();
-                        }
-                        break;
-                        case "анекдот": {
-                            Anecdote anecdote=new Anecdote();
-                            vk.messages.send()
-                                    .setPeerId(message.getPeerId())
-                                    .setMessage(anecdote.getAnecdote())
-                                    .execute();
-                            break;
-                        }
-                        case "кик": {
-                            kickCommand(message);
-                        }
-                        break;
-
-                        case "ботинфа": {
-
-                            vk.messages.send()
-                                    .setPeerId(message.getPeerId())
-                                    .setMessage("Добро пожаловать)\n" +
-                                            "Бот был создан в развлекательном характере\n" +
-                                            "Создатель бота : vk.com/tamoha \n")
-                                    .execute();
-
-                        }
-                        break;
-                        case "grname": {
-
-                            vk.messages.editChat()
-                                    .setChatId(message.getPeerId() - 2000000000)
-                                    .setTitle(message.getText().substring(3))
-                                    .execute();
-                            String n="Имя беседы успешно было изменено на :\n";
-                            vk.messages.send()
-                                    .setPeerId(message.getPeerId())
-                                    .setMessage(n + message.getText().substring(3))
-                                    .execute();
-
-                        }
-                        break;
-                        case "уебать":{
-                            vk.messages.send()
-                                    .setPeerId(message.getPeerId())
-                                    .setMessage("@id" + message.getFromId()+ "уебал игрока :" + "@id" )
-                                    .execute();
-                        }
-
-                        // Если не подошла, другая или иная команда:
-                        default:
-                            try {
-                                vk.messages.send()
-                                        .setPeerId(message.getPeerId())
-                                        .setMessage("Что то пошло не так, пожалуйтса введите !помощь")
-                                        .execute();
-                            } catch (VkApiException e) {
-                                e.printStackTrace();
-                                System.out.println("Что то пошло не так в комадне default");
-                            }
-                    }
-                }
-            }
-        } catch (VkApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private List<Message> replyMessages(Message message) {
-        List<Message> messages=message.getFwdMessages();
-        if (message.getReplyMessage() != null) messages.add(0, message.getReplyMessage());
-
-        return messages;
-    }
+        val longPollHandler = new LongPollHandler(config.getToken(), commandManager);
 
 
-    private void kickCommand(Message message) throws VkApiException {
-        List<Message> replyMessages=replyMessages(message);
+        // при завершении всё выключить
+        Runtime.getRuntime().addShutdownHook(new Thread(longPollHandler::stopPolling));
 
-        if (replyMessages.size() == 0) {
-            vk.messages.send()
-                    .setPeerId(message.getPeerId())
-                    .setMessage("Перешлите это сообщения, того кого хотите кикнуть")
-                    .execute();
-            return;
-        }
-
-        StringBuilder sb=new StringBuilder("Пользовател" + (replyMessages.size() == 1 ? "ь" : "и"));
-        for (Message replyMessage : replyMessages) {
-            int fromId=replyMessage.getFromId();
-            sb.append("\n")
-                    .append(fromId > 0 ? "@id" + fromId : "@club" + (fromId / -1));
-            try {
-                vk.messages.removeChatUser()
-                        .setChatId(message.getPeerId() - 2_000_000_000)
-                        .setMemberId(fromId)
-                        .execute();
-            } catch (VkApiResponseException e) {
-                if (e.getMessage().contains("User not found in chat")) {
-                    sb.append(" - error: данного пользователя нет в чате");
-                }
-            }
-        }
-        vk.messages.send()
-                .setPeerId(message.getPeerId())
-                .setMessage(sb
-                        + (replyMessages.size() == 1 ?
-                        "\nБыл исключен из чата"
-                        : "\nБыли исключены из чата"))
-                .execute();
-    }
-
-
-    @Override
-    public String getAccessToken() {
-        return "vk1.a.vdm7bY8GzzfO59krykZAC3n6aaH7ZdE37hOVsTTe2Dh6HvJnmrTyOY2mMJgeQ1Ex477VwGm05QGl0uDMPvBEXA_0FIKJuieomCjcP0faZqgIrS_Wvc87Q562K3wSr2mMHKw6svYqcLo5gE7cSUdU7Sj2zdqfZFLxyV9Ohc3jOMoJYniAKU7vc4h66xgVBzY3wkqxIvJMf4NyGTdpP4OnGQ";
-    }
-
-    public static void main(String[] args) throws VkApiException {
-        new Main().startPolling();
-
-
+        // run
+        longPollHandler.startPolling();
     }
 }
