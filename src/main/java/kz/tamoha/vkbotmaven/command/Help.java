@@ -10,14 +10,15 @@ import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 /**
  * @author Charles_Grozny
  */
-@CommandAnnotation(aliases = { "help", "помощь", "commands", "команды" })
+@CommandAnnotation(aliases = {"help", "помощь", "commands", "команды"})
 public class Help extends AbstractCommand {
 
     @Override
     public void run(CacheDataMessage cache, Message message, String[] args) throws VkApiException {
         vk.messages.send()
                 .setPeerId(message.getPeerId())
-                .setMessage(MessageTextData.HELP.getText())
+                .setMessage(MessageTextData.HELP.getText()
+                        .replace("%first_name%", cache.getSender().getFullName().get(0).getNoPush()))
                 .execute();
     }
 }

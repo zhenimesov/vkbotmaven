@@ -5,16 +5,21 @@ import api.longpoll.bots.methods.VkBotsMethods;
 import kz.tamoha.vkbotmaven.command.api.impl.SimpleCommandManager;
 import kz.tamoha.vkbotmaven.data.Config;
 import kz.tamoha.vkbotmaven.data.LocalData;
+import kz.tamoha.vkbotmaven.database.DataBase;
+import kz.tamoha.vkbotmaven.exception.BotException;
 import kz.tamoha.vkbotmaven.longpoll.LongPollHandler;
 import kz.tamoha.vkbotmaven.manager.Manager;
 import kz.tamoha.vkbotmaven.manager.impl.ManagerImpl;
+import kz.tamoha.vkbotmaven.model.basic.User;
 import lombok.Getter;
 import lombok.val;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.io.IoBuilder;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @author Ferius_057 (Charles_Grozny)
@@ -36,6 +41,10 @@ public class Main {
         System.out.printf("Run in %s %n", localData.getTimeStart());
 
         val config = Config.load(Paths.get("config.properties"));
+
+        val dataBase = DataBase.create(localData.gson, "database.json");
+        dataBase.read();
+
 
         manager = new ManagerImpl(
                 new VkBotsMethods(config.getToken()), localData

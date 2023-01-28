@@ -8,7 +8,9 @@ import kz.tamoha.vkbotmaven.command.api.annotation.CommandAnnotation;
 import kz.tamoha.vkbotmaven.command.api.annotation.MinimalArgs;
 import kz.tamoha.vkbotmaven.command.api.annotation.Permission;
 import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
+import kz.tamoha.vkbotmaven.exception.BotException;
 import kz.tamoha.vkbotmaven.manager.Manager;
+import kz.tamoha.vkbotmaven.model.basic.User;
 import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 import kz.tamoha.vkbotmaven.util.AccessingAllClassesInPackage;
 import lombok.AccessLevel;
@@ -65,7 +67,7 @@ public final class SimpleCommandManager implements CommandManager {
 
                 cacheDataMessage.getReplySenders().clear();
 
-               // cacheDataMessage.setSender(User.get(manager, message.getFromId()));
+                cacheDataMessage.setSender(User.get(manager, message.getFromId()));
 
                 if (!checkSyntax(command, message.getPeerId(), args)) return;
                 if (!checkPermission(command, cacheDataMessage.getSender())) return;
@@ -77,7 +79,7 @@ public final class SimpleCommandManager implements CommandManager {
 
                     for (val reply : messages) {
                         if (reply.getFromId() > 0) {
-                            //  users.add(User.get(manager, reply.getFromId()));
+                              users.add(User.get(manager, reply.getFromId()));
                         }
                     }
 
@@ -96,6 +98,17 @@ public final class SimpleCommandManager implements CommandManager {
                 }
             } catch (VkApiException e) {
                 e.printStackTrace();
+            } catch (BotException e) {
+                try {
+                    manager.vk().messages.send()
+                            .setPeerId(message.getPeerId())
+                            .setDisableMentions(true)
+                            .setMessage(MessageTextData.ERROR_BOT_EXCEPTION.getText()
+                                    .replace("%error%", e.getMessage()))
+                            .execute();
+                } catch (VkApiException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }
