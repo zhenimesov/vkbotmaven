@@ -14,7 +14,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum MessageTextData {
     // Команды
-    HELP("Это мои команды:" +
+    HELP("Привет %first_name%" +
+            "\nЭто мои команды:" +
             "\n/help - помощь" +
             "\n/uptime - Время запуска бота"),
 
@@ -40,10 +41,16 @@ public enum MessageTextData {
 
 
     // Команды - ошибки
-    ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение"),
+    ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение."),
 
 
-    ERROR_REPLY_ONLY_USER("❌ Данная команда работает только на пользователей.")
+    ERROR_REPLY_ONLY_USER("❌ Данная команда работает только на пользователей."),
+
+    ERROR_NOT_FOUND_USER("❌ Данный пользователь не найден."),
+
+    ERROR_GET_GENDER("❌ Не удалось определить пол пользователя."),
+
+    ERROR_BOT_EXCEPTION("[ERROR]: %error%")
 
 
     ;

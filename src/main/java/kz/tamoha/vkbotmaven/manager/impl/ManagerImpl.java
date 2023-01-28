@@ -35,4 +35,18 @@ public class ManagerImpl implements Manager {
         return localData;
     }
 
+    @Override
+    public Set<Integer> allUsers() {
+        return dataBase.getUsersId();
+    }
+
+    @Override
+    public DataBase dataBase() {
+        return dataBase;
+    }
+
+    @Override
+    public DataBaseModel dataBaseModel() {
+        return dataBase.getDataBaseModel();
+    }
 }

@@ -47,7 +47,7 @@ public class Main {
 
 
         manager = new ManagerImpl(
-                new VkBotsMethods(config.getToken()), localData
+                new VkBotsMethods(config.getToken()), localData, dataBase
         );
 
         val commandManager = SimpleCommandManager.create(manager);
