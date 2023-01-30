@@ -30,7 +30,7 @@ public class Kick extends AbstractCommand {
         if (replyMessages.size() == 0) {
             vk.messages.send()
                     .setPeerId(message.getPeerId())
-                    .setMessage(MessageTextData.REPLY_MESSAGES_KICK.getText())
+                    .setMessage(MessageTextData.ERROR_REPLY_MESSAGES_KICK.getText())
                     .execute();
             return;
         }
@@ -56,7 +56,7 @@ public class Kick extends AbstractCommand {
                     .setMessage(MessageTextData.KICK.getText()
                             .replace("%USERS%", "Пользователь")
                             .replace("%fullName%", fromName)
-                            .replace("%kicked%", "кикнут"))
+                            .replace("%kicked%", "Исключен"))
                     .execute();
         }
     }

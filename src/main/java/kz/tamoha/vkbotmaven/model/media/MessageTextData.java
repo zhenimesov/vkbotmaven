@@ -39,6 +39,7 @@ public enum MessageTextData {
             "perm: %perm%"
     ),
 
+    KICK("%USERS% %fullName% был %kicked% из этой беседы."),
 
     // Команды - ошибки
     ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение."),
@@ -50,7 +51,9 @@ public enum MessageTextData {
 
     ERROR_GET_GENDER("❌ Не удалось определить пол пользователя."),
 
-    ERROR_BOT_EXCEPTION("[ERROR]: %error%")
+    ERROR_BOT_EXCEPTION("[ERROR]: %error%"),
+
+    ERROR_REPLY_MESSAGES_KICK("❌ Перешлите это сообщения, кого хотите кикнуть."),
 
 
     ;
