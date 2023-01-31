@@ -4,6 +4,7 @@ import api.longpoll.bots.exceptions.VkApiException;
 import api.longpoll.bots.exceptions.VkApiResponseException;
 import api.longpoll.bots.model.objects.basic.Message;
 import kz.tamoha.vkbotmaven.command.api.annotation.CommandAnnotation;
+import kz.tamoha.vkbotmaven.command.api.annotation.Permission;
 import kz.tamoha.vkbotmaven.command.api.impl.AbstractCommand;
 import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
 import kz.tamoha.vkbotmaven.model.basic.User;
@@ -12,6 +13,7 @@ import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 import java.util.List;
 
 
+@Permission(1)
 @CommandAnnotation(aliases = {"кик", "kick"})
 public class Kick extends AbstractCommand {
 

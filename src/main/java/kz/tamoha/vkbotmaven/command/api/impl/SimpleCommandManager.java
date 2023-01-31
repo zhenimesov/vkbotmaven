@@ -70,7 +70,7 @@ public final class SimpleCommandManager implements CommandManager {
                 cacheDataMessage.setSender(User.get(manager, message.getFromId()));
 
                 if (!checkSyntax(command, message.getPeerId(), args)) return;
-                if (!checkPermission(command, cacheDataMessage.getSender())) return;
+                if (!checkPermission(command, message.getPeerId(), cacheDataMessage.getSender())) return;
 
                 if (messages.size() == 0)
                     command.run(cacheDataMessage, message, args);
@@ -130,16 +130,16 @@ public final class SimpleCommandManager implements CommandManager {
     }
 
 
-    private boolean checkPermission(Command command, kz.tamoha.vkbotmaven.model.basic.User user) throws VkApiException {
+    private boolean checkPermission(Command command, int peerId, User user) throws VkApiException {
         val declaredAnnotation = command.getClass().getDeclaredAnnotation(Permission.class);
         if (declaredAnnotation == null || user.getPermission() >= declaredAnnotation.value()) return true;
 
         System.out.println("нет прав");
-     /*   manager.vk().messages.send()
+        manager.vk().messages.send()
                 .setPeerId(peerId)
                 .setDisableMentions(true)
-                .setMessage("❗ [id" + user.getUserId() + "|" + cacheDataMessage.getSender().getFirstName()[0] + "], у вас недостаточно прав для данной команды.")
-                .execute();*/
+                .setMessage("❗ [id" + user.getId() + "|" + cacheDataMessage.getSender().getFirstName().get(0) + "], у вас недостаточно прав для данной команды.")
+                .execute();
         return false;
     }
 
