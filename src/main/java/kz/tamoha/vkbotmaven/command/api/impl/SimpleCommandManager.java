@@ -79,7 +79,9 @@ public final class SimpleCommandManager implements CommandManager {
 
                     for (val reply : messages) {
                         if (reply.getFromId() > 0) {
-                              users.add(User.get(manager, reply.getFromId()));
+                            User user = User.get(manager, reply.getFromId());
+                            if (!users.contains(user))
+                                users.add(user);
                         }
                     }
 

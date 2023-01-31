@@ -39,7 +39,7 @@ public enum MessageTextData {
             "perm: %perm%"
     ),
 
-    KICK("%USERS% %fullName% был %kicked% из этой беседы."),
+    KICK("%user% %fullName% был %kicked% из этой беседы."),
 
     // Команды - ошибки
     ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение."),
@@ -47,7 +47,7 @@ public enum MessageTextData {
 
     ERROR_REPLY_ONLY_USER("❌ Данная команда работает только на пользователей."),
 
-    ERROR_NOT_FOUND_USER("❌ Данный пользователь не найден."),
+    ERROR_NOT_FOUND_USER("❌ %user% отсуствует в беседе.\n\n"),
 
     ERROR_GET_GENDER("❌ Не удалось определить пол пользователя."),
 
