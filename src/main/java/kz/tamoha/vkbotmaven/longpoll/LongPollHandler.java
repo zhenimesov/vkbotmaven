@@ -20,7 +20,7 @@ public class LongPollHandler extends LongPollBot {
     public void onMessageNew(MessageNew messageNew) {
         val message = messageNew.getMessage();
         if (message.hasText()) {
-            System.out.printf("[*] New message: %s | %s | %s - %s", message.getText(),
+            System.out.printf("[*] New message: %s | %s | %s - %s %n", message.getText(),
                     message.getPeerId(), message.getFromId(), message);
 
             commandManager.run(message);

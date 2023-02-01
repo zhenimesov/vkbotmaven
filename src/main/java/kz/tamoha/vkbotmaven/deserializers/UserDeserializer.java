@@ -42,6 +42,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 
         return User.builder()
                 .id(id)
+                .nickname(jsonObject.get("nickname").getAsString())
                 .firstName(firstName)
                 .lastName(lastName)
                 .fullName(fullNames)

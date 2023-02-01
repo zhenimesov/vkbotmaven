@@ -36,14 +36,16 @@ public enum MessageTextData {
             "" +
             "gender: %gender%\n\n" +
             "" +
-            "perm: %perm%"
+            "perm: %perm% \n\n" +
+            "nickname: %nickname%"
     ),
 
     KICK("%user% %fullName% был %kicked% из этой беседы."),
+    NICKNAME("✏ %fullName%, вы изменили свой ник на: %nickName%"),
 
     // Команды - ошибки
+    ERROR_CENSORED_WORD_NICKNAME("❗ В вашем нике запрещенные символы"),
     ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение."),
-
 
     ERROR_REPLY_ONLY_USER("❌ Данная команда работает только на пользователей."),
 

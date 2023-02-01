@@ -16,18 +16,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
 @Getter
 @Builder
 @ToString
 @JsonAdapter(UserDeserializer.class)
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@FieldDefaults( level = AccessLevel.PRIVATE)
 public class User {
     int id;
+    String nickname;
     List<String> firstName;
     List<String> lastName;
     List<FullName> fullName;
     Gender gender;
     int permission;
+
 
 
     private static User registrationUser(Manager manager, int id) throws VkApiException, BotException {
@@ -75,6 +78,7 @@ public class User {
 
         User user = User.builder()
                 .id(id)
+                .nickname("0")
                 .firstName(fistName.get(id))
                 .lastName(lastName.get(id))
                 .fullName(fullNames)
@@ -89,7 +93,6 @@ public class User {
 
         return user;
     }
-
     public static User get(Manager manager, int id) throws VkApiException, BotException {
         Optional<User> user = manager.dataBaseModel().getUsers().stream()
                 .filter(userFilter -> userFilter.getId() == id)
@@ -102,5 +105,11 @@ public class User {
         return user.get();
     }
 
-
+    public User updateNickname(Manager manager, String nickname, User user) {
+        manager.dataBaseModel().getUsers().remove(user);
+        user.setNickname(nickname);
+        manager.dataBaseModel().getUsers().add(user);
+        manager.dataBase().write();
+        return user;
+    }
 }

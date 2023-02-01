@@ -51,7 +51,10 @@ public class Profile extends AbstractCommand {
 
                         .replace("%gender%", user.getGender().getValue())
 
-                        .replace("%perm%", String.valueOf(user.getPermission())))
+                        .replace("%perm%", String.valueOf(user.getPermission()))
+
+                        .replace("%nickname%", user.getNickname().equalsIgnoreCase("0")
+                                ? "Не установлен" : user.getNickname()))
                 .execute();
     }
 }
