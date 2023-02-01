@@ -19,7 +19,5 @@ import java.util.List;
 public class CacheDataMessage {
 
     User sender;
-
     List<User> replySenders = new ArrayList<>();
-
 }
