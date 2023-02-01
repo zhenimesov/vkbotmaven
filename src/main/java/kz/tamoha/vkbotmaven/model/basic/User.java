@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -108,6 +109,14 @@ public class User {
     public User updateNickname(Manager manager, String nickname, User user) {
         manager.dataBaseModel().getUsers().remove(user);
         user.setNickname(nickname);
+        manager.dataBaseModel().getUsers().add(user);
+        manager.dataBase().write();
+        return user;
+    }
+
+    public User updatePerm(Manager manager, int permission, User user) {
+        manager.dataBaseModel().getUsers().remove(user);
+        user.setPermission(permission);
         manager.dataBaseModel().getUsers().add(user);
         manager.dataBase().write();
         return user;

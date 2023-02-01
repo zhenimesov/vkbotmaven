@@ -9,32 +9,19 @@ import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
 import kz.tamoha.vkbotmaven.model.basic.User;
 import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 
-import java.util.Arrays;
-import java.util.regex.Pattern;
-
-@MinimalArgs(1)
-@CommandAnnotation(aliases = {"ник", "nickname", "никнейм", "nick "})
-public class SetNick extends AbstractCommand {
+@CommandAnnotation(aliases = {"Удалить ник", "Delete nickname",})
+public class UnSetNick extends AbstractCommand {
     @Override
     public void run(CacheDataMessage cache, Message message, String[] args) throws VkApiException {
-        String nickName = args[0];
         User sender = cache.getSender();
-
         String msg;
-        if (Pattern.compile("^[\\_\\- а-яА-ЯёЁa-zA-Z0-9]+$").matcher(nickName).find()) {
-            sender.updateNickname(manager, nickName, sender);
-
-            msg = MessageTextData.NICKNAME.getText()
-                    .replace("%fullName%", sender.getFullName().get(0).getPush())
-                    .replace("%nickName%", sender.getNickname());
-
-        } else msg = MessageTextData.ERROR_CENSORED_WORD_NICKNAME.getText();
+        sender.updateNickname(manager, "0", sender);
+        msg =MessageTextData.UNSETNICKNAME.getText()
+                .replace("%fullName", cache.getSender().getFullName().get(0).getPush());
 
         vk.messages.send()
-                .setMessage(msg)
                 .setPeerId(message.getPeerId())
+                .setMessage(msg)
                 .execute();
-
-
     }
 }

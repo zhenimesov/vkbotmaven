@@ -89,8 +89,7 @@ public final class SimpleCommandManager implements CommandManager {
                         manager.vk().messages.send()
                                 .setPeerId(message.getPeerId())
                                 .setDisableMentions(true)
-                                .setMessage(MessageTextData.ERROR_REPLY_ONLY_USER.getText())
-                                .execute();
+                                .setMessage(MessageTextData.ERROR_REPLY_ONLY_USER.getText());
                         return;
                     }
 
