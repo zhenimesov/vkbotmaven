@@ -18,7 +18,8 @@ public enum MessageTextData {
             "\nЭто мои команды:" +
             "\n/help - помощь" +
             "\n/uptime - Время запуска бота" +
-            "\n/nick - Поставить свой ник в боте"),
+            "\n/nick - Поставить свой ник в боте" +
+            "\n\n ОФОРМЛЮ ПОТОМ ХЕЛП"),
 
     PROFILE("id: %id%\n\n" +
             "" +
@@ -44,13 +45,14 @@ public enum MessageTextData {
     KICK("%user% %fullName% был %kicked% из этой беседы."),
     NICKNAME("✏ %fullName%, вы изменили свой ник на: %nickName%."),
     UNSETNICKNAME("✏ %fullName%, вы успешно удалили свой ник."),
-    ADMIN("✅ Пользователь %fullName%, теперь стал админом."),
-    DEFAULT("✅ Пользователь %fullName%, теперь стал участником."),
-    ERROR_ADMIN("\uD83D\uDD0D %fullName%, %text%."),
+    ADMIN("✅ Пользователь %fullName%, теперь стал(-а) админом."),
+    DEFAULT("✅ Пользователь %fullName%, теперь стал(-а) участником."),
+    MARRY("\uD83D\uDC98 Согласны ли вы %user1%, вступить брак с %user2% ?"),
+    MARRY_BUSY("%fullName% уже занят \uD83D\uDC94"),
 
-    // Команды - ошибки
+    // Команды - ошибки,
     ERROR_CENSORED_WORD_NICKNAME("❗ В вашем нике запрещенные символы."),
-    ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение или пересланным сообщение."),
+    ERROR_NO_REPLY_MESSAGE("❗ Сообщение должно быть ответом на другое сообщение."),
 
     ERROR_REPLY_ONLY_USER("❌ Данная команда работает только на пользователей."),
 
@@ -61,7 +63,8 @@ public enum MessageTextData {
     ERROR_BOT_EXCEPTION("[ERROR]: %error%"),
 
     ERROR_REPLY_MESSAGES_KICK("❌ Перешлите это сообщения, кого хотите кикнуть."),
-
+    ERROR_TEXT("\uD83D\uDD0D %fullName%, %text%."),
+    ERROR_CANT_USE_COMMAND_YOUSELF("\uD83D\uDD0D вы не можете использовать команду на себе.")
 
     ;
 

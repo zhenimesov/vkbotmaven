@@ -31,6 +31,7 @@ public class User {
     List<FullName> fullName;
     Gender gender;
     int permission;
+    String partner;
 
 
 
@@ -84,6 +85,7 @@ public class User {
                 .lastName(lastName.get(id))
                 .fullName(fullNames)
                 .gender(gender)
+                .partner("0")
                 .permission(0)
                 .build();
 
@@ -117,6 +119,13 @@ public class User {
     public User updatePerm(Manager manager, int permission, User user) {
         manager.dataBaseModel().getUsers().remove(user);
         user.setPermission(permission);
+        manager.dataBaseModel().getUsers().add(user);
+        manager.dataBase().write();
+        return user;
+    }
+    public User updatePartner(Manager manager, String partner, User user, int id) {
+        manager.dataBaseModel().getUsers().remove(user);
+        user.setPartner(partner);
         manager.dataBaseModel().getUsers().add(user);
         manager.dataBase().write();
         return user;

@@ -31,7 +31,7 @@ public class Uptime extends AbstractCommand {
 
         vk.messages.send()
                 .setPeerId(message.getPeerId())
-                .setMessage("✅Бот работает\nВремя запуска: " + localData.getTimeStart() + " GMT+3\n" + time)
+                .setMessage("✅Бот работает\nВремя запуска: " + localData.getTimeStart() + " GMT+6\n" + time)
                 .execute();
     }
 }

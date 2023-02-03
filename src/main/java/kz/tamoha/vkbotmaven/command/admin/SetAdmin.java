@@ -6,8 +6,6 @@ import kz.tamoha.vkbotmaven.command.api.annotation.CommandAnnotation;
 import kz.tamoha.vkbotmaven.command.api.annotation.Permission;
 import kz.tamoha.vkbotmaven.command.api.impl.AbstractCommand;
 import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
-import kz.tamoha.vkbotmaven.database.DataBase;
-import kz.tamoha.vkbotmaven.model.basic.DataBaseModel;
 import kz.tamoha.vkbotmaven.model.basic.User;
 import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 import lombok.val;
@@ -26,7 +24,7 @@ public class SetAdmin extends AbstractCommand {
 
         String msg;
         if(sender == cache.getSender()) {
-            msg = MessageTextData.ERROR_ADMIN.getText()
+            msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", cache.getSender().getFullName().get(0).getPush())
                     .replace("%text%", "вы не можете применять команду на себе");
         } else if (replySenders != null) {
@@ -36,14 +34,14 @@ public class SetAdmin extends AbstractCommand {
                 msg=MessageTextData.ADMIN.getText()
                         .replace("%fullName%", push);
 
-            } else msg=MessageTextData.ERROR_ADMIN.getText()
+            } else msg=MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", push)
                     .replace("%text%", "уже имеет роль админа");
 
-        } else msg=MessageTextData.ERROR_ADMIN.getText()
+        } else msg=MessageTextData.ERROR_TEXT.getText()
                 .replace("%fullName%", push)
                 .replace("%text%", "отсутствует в этой беседе");
-        
+
         vk.messages.send()
                 .setPeerId(peerId)
                 .setDisableMentions(true)

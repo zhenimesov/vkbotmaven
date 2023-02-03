@@ -31,7 +31,7 @@ public class LocalData {
     private String makeTextTime() {
         val timeStartMs = System.currentTimeMillis();
         val simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+6"));
         return simpleDateFormat.format(new Date(timeStartMs));
     }
 

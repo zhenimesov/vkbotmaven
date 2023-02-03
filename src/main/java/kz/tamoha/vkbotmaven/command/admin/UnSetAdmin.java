@@ -25,7 +25,7 @@ public class UnSetAdmin extends AbstractCommand {
         String msg;
 
         if(sender == cache.getSender()) {
-            msg = MessageTextData.ERROR_ADMIN.getText()
+            msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", cache.getSender().getFullName().get(0).getPush())
                     .replace("%text%", "вы не можете применять команду на себе");
         } else if (replySenders != null) {
@@ -35,11 +35,11 @@ public class UnSetAdmin extends AbstractCommand {
                 msg=MessageTextData.DEFAULT.getText()
                         .replace("%fullName%", push);
 
-            } else msg=MessageTextData.ERROR_ADMIN.getText()
+            } else msg=MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", push)
                     .replace("%text%", "уже имеет роль участника");
 
-        } else msg=MessageTextData.ERROR_ADMIN.getText()
+        } else msg=MessageTextData.ERROR_TEXT.getText()
                 .replace("%fullName%", push)
                 .replace("%text%", "отсутствует в этой беседе");
 
