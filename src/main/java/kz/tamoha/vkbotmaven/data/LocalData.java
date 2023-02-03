@@ -1,6 +1,7 @@
 package kz.tamoha.vkbotmaven.data;
 
 import com.google.gson.Gson;
+import kz.tamoha.vkbotmaven.keyboard.api.model.CacheDataKeyboard;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.val;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -17,6 +19,7 @@ import java.util.TimeZone;
  */
 @FieldDefaults(makeFinal = true, level = AccessLevel.PUBLIC)
 public class LocalData {
+    HashMap<Double, CacheDataKeyboard> keyboardData = new HashMap<>();
 
     Gson gson = new Gson();
 

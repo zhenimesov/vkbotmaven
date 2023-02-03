@@ -3,6 +3,8 @@ package kz.tamoha.vkbotmaven.util;
 import com.google.common.reflect.ClassPath;
 import kz.tamoha.vkbotmaven.command.api.annotation.CommandAnnotation;
 import kz.tamoha.vkbotmaven.command.api.impl.AbstractCommand;
+import kz.tamoha.vkbotmaven.keyboard.api.annotation.KeyboardAnnotation;
+import kz.tamoha.vkbotmaven.keyboard.api.impl.AbstractKeyboard;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -26,5 +28,10 @@ public class AccessingAllClassesInPackage {
     public List<Class<?>> getClassesCommand(final String packageName) throws IOException {
         return getClassesInPackage(packageName,  filter -> AbstractCommand.class.isAssignableFrom(filter)
                 && filter.getDeclaredAnnotation(CommandAnnotation.class) != null);
+    }
+
+    public List<Class<?>> getClassesKeyboard(final String packageName) throws IOException {
+        return getClassesInPackage(packageName,  filter -> AbstractKeyboard.class.isAssignableFrom(filter)
+                && filter.getDeclaredAnnotation(KeyboardAnnotation.class) != null);
     }
 }

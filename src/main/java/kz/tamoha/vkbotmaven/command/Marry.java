@@ -20,40 +20,38 @@ import java.util.List;
 public class Marry extends AbstractCommand {
     @Override
     public void run(CacheDataMessage cache, Message message, List<Message> replyMessages, String[] args) throws VkApiException {
-        String fullName = cache.getSender().getFullName().get(4).getPush();
-        String replySenderFullName = cache.getReplySenders().get(0).getFullName().get(0).getPush();
-        User sender = cache.getSender();
-        User replySender = cache.getReplySenders().get(0);
+        User partner1 = cache.getSender();
+        User partner2 = cache.getReplySenders().get(0);
 
-
-        try {
-            sendCallbackButton(message.getPeerId(), replySenderFullName, fullName);
-        } catch (VkApiException e) {
-            if (cache.getSender().getId() == cache.getReplySenders().get(0).getId()) {
-                vk.messages.send()
-                        .setPeerId(message.getPeerId())
-                        .setMessage(MessageTextData.ERROR_CANT_USE_COMMAND_YOUSELF.getText())
-                        .execute();
-            }
+        if (partner1.getId() == partner2.getId()) {
+            vk.messages.send()
+                    .setPeerId(message.getPeerId())
+                    .setMessage(MessageTextData.ERROR_CANT_USE_COMMAND_YOUSELF.getText())
+                    .execute();
+            return;
         }
-    }
+        String partner1FullName = partner1.getFullName().get(4).getPush();
+        String partner2FullName = partner2.getFullName().get(0).getPush();
 
-    public void sendCallbackButton(int peerId, String replySenderFullName, String fullName) throws VkApiException {
-        List<Button> buttons = new ArrayList<>();
-        // button 1
-        buttons.add(new CallbackButton(Button.Color.POSITIVE, new CallbackButton.Action("Да", null)));
-        // button 2
-        buttons.add(new CallbackButton(Button.Color.NEGATIVE, new CallbackButton.Action("Нет", null)));
+        double random = Math.random();
+        localData.keyboardData.put(random,
+                CacheDataKeyboard.builder()
+                        .marry(
+                                CacheDataKeyboard.Marry.builder()
+                                        .partner1(partner1)
+                                        .partner2(partner2)
+                                        .build()
+                        )
+                        .build());
 
-        Keyboard keyboard = new Keyboard(List.of(buttons))
-                .setInline(true);
-
-        Send.ResponseBody responseBody = vk.messages.send()
-                .setPeerId(peerId)
+        vk.messages.send()
+                .setDisableMentions(true)
+                .setPeerId(message.getPeerId())
                 .setMessage(MessageTextData.MARRY.getText()
-                        .replace("%user1%", replySenderFullName)
-                        .replace("%user2%", fullName))
-                .setKeyboard(keyboard)
+                        .replace("%user1%", partner2FullName)
+                        .replace("%user2%", partner1FullName))
+                .setKeyboard(manager.keyboardBot()
+                        .createMarry(String.valueOf(random)))
                 .execute();
     }
 }

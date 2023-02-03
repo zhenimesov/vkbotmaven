@@ -3,6 +3,7 @@ package kz.tamoha.vkbotmaven.manager.impl;
 import api.longpoll.bots.methods.VkBotsMethods;
 import kz.tamoha.vkbotmaven.data.LocalData;
 import kz.tamoha.vkbotmaven.database.DataBase;
+import kz.tamoha.vkbotmaven.keyboard.api.model.KeyboardBot;
 import kz.tamoha.vkbotmaven.manager.Manager;
 import kz.tamoha.vkbotmaven.model.basic.DataBaseModel;
 import lombok.AccessLevel;
@@ -23,6 +24,7 @@ public class ManagerImpl implements Manager {
     VkBotsMethods vk;
     LocalData localData;
     DataBase dataBase;
+    KeyboardBot keyboardBot;
 
 
     @Override
@@ -48,5 +50,10 @@ public class ManagerImpl implements Manager {
     @Override
     public DataBaseModel dataBaseModel() {
         return dataBase.getDataBaseModel();
+    }
+
+    @Override
+    public KeyboardBot keyboardBot() {
+        return keyboardBot;
     }
 }

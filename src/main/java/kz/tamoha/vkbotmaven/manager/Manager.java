@@ -3,6 +3,7 @@ package kz.tamoha.vkbotmaven.manager;
 import api.longpoll.bots.methods.VkBotsMethods;
 import kz.tamoha.vkbotmaven.data.LocalData;
 import kz.tamoha.vkbotmaven.database.DataBase;
+import kz.tamoha.vkbotmaven.keyboard.api.model.KeyboardBot;
 import kz.tamoha.vkbotmaven.model.basic.DataBaseModel;
 
 import java.util.Set;
@@ -21,4 +22,6 @@ public interface Manager {
     DataBase dataBase();
 
     DataBaseModel dataBaseModel();
+
+    KeyboardBot keyboardBot();
 }

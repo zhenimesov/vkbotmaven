@@ -6,6 +6,8 @@ import kz.tamoha.vkbotmaven.command.api.impl.SimpleCommandManager;
 import kz.tamoha.vkbotmaven.data.Config;
 import kz.tamoha.vkbotmaven.data.LocalData;
 import kz.tamoha.vkbotmaven.database.DataBase;
+import kz.tamoha.vkbotmaven.keyboard.api.impl.SimpleKeyboardManager;
+import kz.tamoha.vkbotmaven.keyboard.api.model.KeyboardBot;
 import kz.tamoha.vkbotmaven.longpoll.LongPollHandler;
 import kz.tamoha.vkbotmaven.manager.Manager;
 import kz.tamoha.vkbotmaven.manager.impl.ManagerImpl;
@@ -43,12 +45,13 @@ public class Main {
 
 
         manager = new ManagerImpl(
-                new VkBotsMethods(config.getToken()), localData, dataBase
+                new VkBotsMethods(config.getToken()), localData, dataBase, new KeyboardBot()
         );
 
         val commandManager = SimpleCommandManager.create(manager);
+        val keyboardManager = SimpleKeyboardManager.create(manager);
 
-        val longPollHandler = new LongPollHandler(config.getToken(), commandManager);
+        val longPollHandler = new LongPollHandler(config.getToken(), commandManager, keyboardManager);
 
 
         // при завершении всё выключить
