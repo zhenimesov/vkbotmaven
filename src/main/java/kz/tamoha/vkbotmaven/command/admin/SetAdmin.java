@@ -23,7 +23,7 @@ public class SetAdmin extends AbstractCommand {
         User sender = cache.getReplySenders().get(0);
 
         String msg;
-        if(sender == cache.getSender()) {
+        if (sender == cache.getSender()) {
             msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", cache.getSender().getFullName().get(0).getPush())
                     .replace("%text%", "вы не можете применять команду на себе");
@@ -31,14 +31,14 @@ public class SetAdmin extends AbstractCommand {
 
             if (replySenders.getPermission() == 0) {
                 sender.updatePerm(manager, 1, sender);
-                msg=MessageTextData.ADMIN.getText()
+                msg = MessageTextData.ADMIN.getText()
                         .replace("%fullName%", push);
 
-            } else msg=MessageTextData.ERROR_TEXT.getText()
+            } else msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", push)
                     .replace("%text%", "уже имеет роль админа");
 
-        } else msg=MessageTextData.ERROR_TEXT.getText()
+        } else msg = MessageTextData.ERROR_TEXT.getText()
                 .replace("%fullName%", push)
                 .replace("%text%", "отсутствует в этой беседе");
 

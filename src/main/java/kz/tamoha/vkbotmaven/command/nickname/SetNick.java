@@ -9,7 +9,6 @@ import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
 import kz.tamoha.vkbotmaven.model.basic.User;
 import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 @MinimalArgs(1)

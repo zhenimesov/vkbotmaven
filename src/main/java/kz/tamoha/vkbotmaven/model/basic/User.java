@@ -3,7 +3,6 @@ package kz.tamoha.vkbotmaven.model.basic;
 import api.longpoll.bots.exceptions.VkApiException;
 import api.longpoll.bots.model.objects.additional.NameCase;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import kz.tamoha.vkbotmaven.deserializers.UserDeserializer;
 import kz.tamoha.vkbotmaven.exception.BotException;
 import kz.tamoha.vkbotmaven.manager.Manager;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -108,20 +106,18 @@ public class User {
         return user.get();
     }
 
-    public User updateNickname(Manager manager, String nickname, User user) {
+    public void updateNickname(Manager manager, String nickname, User user) {
         manager.dataBaseModel().getUsers().remove(user);
         user.setNickname(nickname);
         manager.dataBaseModel().getUsers().add(user);
         manager.dataBase().write();
-        return user;
     }
 
-    public User updatePerm(Manager manager, int permission, User user) {
+    public void updatePerm(Manager manager, int permission, User user) {
         manager.dataBaseModel().getUsers().remove(user);
         user.setPermission(permission);
         manager.dataBaseModel().getUsers().add(user);
         manager.dataBase().write();
-        return user;
     }
     public User updatePartner(Manager manager, String partner, User user, int id) {
         manager.dataBaseModel().getUsers().remove(user);

@@ -5,7 +5,6 @@ import api.longpoll.bots.model.objects.basic.Message;
 import kz.tamoha.vkbotmaven.command.api.annotation.CommandAnnotation;
 import kz.tamoha.vkbotmaven.command.api.impl.AbstractCommand;
 import kz.tamoha.vkbotmaven.command.api.model.CacheDataMessage;
-import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 
 import java.time.Duration;
 
@@ -18,7 +17,7 @@ public class Uptime extends AbstractCommand {
     @Override
     public void run(CacheDataMessage cache, Message message, String[] args) throws VkApiException {
         Duration duration = Duration.ofMillis(System.currentTimeMillis() - localData.timeStartMs);
-        long days = duration.toDays(); //   раз getTimeStart вызывается лишь 1 раз, то иди в начало кода бота и вызови его там
+        long days = duration.toDays();
         long hours = duration.minusDays(days).toHours() % 24;
         long minutes = duration.minusHours(hours).toMinutes() % 60;
         long seconds = duration.minusMinutes(minutes).getSeconds() % 60;

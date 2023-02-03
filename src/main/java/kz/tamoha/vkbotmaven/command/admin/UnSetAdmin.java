@@ -13,7 +13,7 @@ import lombok.val;
 import java.util.List;
 
 @Permission(1)
-@CommandAnnotation(aliases = { "default", "участник" })
+@CommandAnnotation(aliases = {"default", "участник"})
 public class UnSetAdmin extends AbstractCommand {
     @Override
     public void run(CacheDataMessage cache, Message message, List<Message> replyMessages, String[] args) throws VkApiException {
@@ -24,7 +24,7 @@ public class UnSetAdmin extends AbstractCommand {
 
         String msg;
 
-        if(sender == cache.getSender()) {
+        if (sender == cache.getSender()) {
             msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", cache.getSender().getFullName().get(0).getPush())
                     .replace("%text%", "вы не можете применять команду на себе");
@@ -32,14 +32,14 @@ public class UnSetAdmin extends AbstractCommand {
 
             if (replySenders.getPermission() != 0) {
                 sender.updatePerm(manager, 0, sender);
-                msg=MessageTextData.DEFAULT.getText()
+                msg = MessageTextData.DEFAULT.getText()
                         .replace("%fullName%", push);
 
-            } else msg=MessageTextData.ERROR_TEXT.getText()
+            } else msg = MessageTextData.ERROR_TEXT.getText()
                     .replace("%fullName%", push)
                     .replace("%text%", "уже имеет роль участника");
 
-        } else msg=MessageTextData.ERROR_TEXT.getText()
+        } else msg = MessageTextData.ERROR_TEXT.getText()
                 .replace("%fullName%", push)
                 .replace("%text%", "отсутствует в этой беседе");
 

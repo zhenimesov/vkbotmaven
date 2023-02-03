@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import kz.tamoha.vkbotmaven.model.basic.DataBaseModel;
 import kz.tamoha.vkbotmaven.model.basic.User;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

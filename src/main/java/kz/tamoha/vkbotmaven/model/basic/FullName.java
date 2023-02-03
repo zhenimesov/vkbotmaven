@@ -3,7 +3,6 @@ package kz.tamoha.vkbotmaven.model.basic;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 /**
