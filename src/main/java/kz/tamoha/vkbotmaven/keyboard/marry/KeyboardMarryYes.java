@@ -6,6 +6,9 @@ import api.longpoll.bots.model.objects.additional.EventData;
 import kz.tamoha.vkbotmaven.keyboard.api.annotation.KeyboardAnnotation;
 import kz.tamoha.vkbotmaven.keyboard.api.impl.AbstractKeyboard;
 import kz.tamoha.vkbotmaven.keyboard.api.model.CacheDataKeyboard;
+import kz.tamoha.vkbotmaven.model.basic.User;
+import kz.tamoha.vkbotmaven.model.media.MessageTextData;
+import lombok.val;
 
 /**
  * @author Ferius_057 (Charles_Grozny)
@@ -16,12 +19,35 @@ public class KeyboardMarryYes extends AbstractKeyboard {
 
     @Override
     public void run(CacheDataKeyboard cacheDataKeyboard, MessageEvent messageEvent) throws VkApiException {
-        System.out.println("+");
+        val partner1 = cacheDataKeyboard.getMarry().getPartner1();
+        val partner2 = cacheDataKeyboard.getMarry().getPartner2();
+        if (partner1.getId() != messageEvent.getUserId()) {
+            vk.messages.sendEventAnswer()
+                    .setUserId(messageEvent.getUserId())
+                    .setPeerId(messageEvent.getPeerId())
+                    .setEventId(messageEvent.getEventId())
+                    .setEventData(new EventData.ShowSnackbar(MessageTextData.ERROR_MARRY_NOT_FOR_YOU.getText()))
+                    .execute();
+        }
+
+        val date = System.currentTimeMillis();
+
+        partner1.updatePartner(manager, partner1, partner2, date);
+        partner2.updatePartner(manager, partner2, partner1, date);
+
         vk.messages.sendEventAnswer()
                 .setUserId(messageEvent.getUserId())
                 .setPeerId(messageEvent.getPeerId())
                 .setEventId(messageEvent.getEventId())
-                .setEventData(new EventData.ShowSnackbar("ты гей"))
+                .setEventData(new EventData.ShowSnackbar("Поздравляю теперь вы в браке!"))
+                .execute();
+
+
+        vk.messages.send()
+                .setPeerId(messageEvent.getPeerId())
+                .setMessage(MessageTextData.MARRY_YES_DONE.getText()
+                        .replace("%partner1%", partner1.getFullName().get(0).getPush())
+                        .replace("%partner2%", partner2.getFullName().get(0).getPush()))
                 .execute();
     }
 }

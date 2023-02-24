@@ -2,11 +2,13 @@ package kz.tamoha.vkbotmaven.keyboard.api.impl;
 
 import api.longpoll.bots.exceptions.VkApiException;
 import api.longpoll.bots.model.events.messages.MessageEvent;
+import api.longpoll.bots.model.objects.additional.EventData;
 import com.google.gson.JsonElement;
 import kz.tamoha.vkbotmaven.keyboard.api.Keyboard;
 import kz.tamoha.vkbotmaven.keyboard.api.KeyboardManager;
 import kz.tamoha.vkbotmaven.keyboard.api.annotation.KeyboardAnnotation;
 import kz.tamoha.vkbotmaven.manager.Manager;
+import kz.tamoha.vkbotmaven.model.media.MessageTextData;
 import kz.tamoha.vkbotmaven.util.AccessingAllClassesInPackage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -53,8 +55,16 @@ public class SimpleKeyboardManager implements KeyboardManager {
                 val keyboardData = manager.localData().keyboardData;
                 System.out.println(asDouble);
                 System.out.println(keyboardData);
-                if (!keyboardData.containsKey(asDouble))
+                if (!keyboardData.containsKey(asDouble)) {
+                    manager.vk().messages.sendEventAnswer()
+                            .setUserId(messageEvent.getUserId())
+                            .setPeerId(messageEvent.getPeerId())
+                            .setEventId(messageEvent.getEventId())
+                            .setEventData(new EventData.ShowSnackbar(MessageTextData.ERROR_NOT_RELEVANT.getText()))
+                            .execute();
                     return;
+                }
+
 
                 String type = button.getAsString();
 
@@ -64,6 +74,8 @@ public class SimpleKeyboardManager implements KeyboardManager {
                 if (keyboard == null) return;
 
                 keyboard.run(keyboardData.get(asDouble), messageEvent);
+
+                keyboardData.remove(asDouble);
             } catch (VkApiException e) {
                 e.printStackTrace();
             } catch (UnsupportedOperationException ignored) {}

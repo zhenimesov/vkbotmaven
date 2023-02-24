@@ -48,6 +48,9 @@ public enum MessageTextData {
     ADMIN("✅ Пользователь %fullName%, теперь стал(-а) админом."),
     DEFAULT("✅ Пользователь %fullName%, теперь стал(-а) участником."),
     MARRY("\uD83D\uDC98 Согласны ли вы %user1%, вступить брак с %user2% ?"),
+    ERROR_MARRY_HAVE_MARRY_YOU("Вы уже состоите в браке!"),
+    ERROR_MARRY_HAVE_MARRY_PARTNER("%partner% уже состоит в браке."),
+
     MARRY_BUSY("%fullName% уже занят \uD83D\uDC94"),
 
     // Команды - ошибки,
@@ -64,9 +67,32 @@ public enum MessageTextData {
 
     ERROR_REPLY_MESSAGES_KICK("❌ Перешлите это сообщения, кого хотите кикнуть."),
     ERROR_TEXT("\uD83D\uDD0D %fullName%, %text%."),
-    ERROR_CANT_USE_COMMAND_YOUSELF("\uD83D\uDD0D вы не можете использовать команду на себе.")
+    ERROR_CANT_USE_COMMAND_YOUSELF("\uD83D\uDD0D вы не можете использовать команду на себе."),
+
+
+
+
+
+    // кнопки
+    ERROR_NOT_RELEVANT("Кнопка уже не акутальна :D"),
+
+    ERROR_MARRY_NOT_FOR_YOU("Увы, но предолжения было сделано не тебе)"),
+
+    MARRY_YES_DONE("\uD83D\uDC9EПоздравим пару %partner1% и %partner2% этой беседы." +
+            "\nОни вступили в брак, удачи им!!!\uD83D\uDC98"),
+
+
+
+
+
+
+
+
+
+
 
     ;
+
 
 
     String text;

@@ -29,7 +29,7 @@ public class User {
     List<FullName> fullName;
     Gender gender;
     int permission;
-    String partner;
+    Marry marry;
 
 
 
@@ -83,7 +83,7 @@ public class User {
                 .lastName(lastName.get(id))
                 .fullName(fullNames)
                 .gender(gender)
-                .partner("0")
+                .marry(Marry.builder().build())
                 .permission(0)
                 .build();
 
@@ -119,10 +119,17 @@ public class User {
         manager.dataBaseModel().getUsers().add(user);
         manager.dataBase().write();
     }
-    public User updatePartner(Manager manager, String partner, User user, int id) {
-        manager.dataBaseModel().getUsers().remove(user);
-        user.setPartner(partner);
-        manager.dataBaseModel().getUsers().add(user);
+    public User updatePartner(Manager manager, User user, User partner, long date) {
+        val users = manager.dataBaseModel().getUsers();
+
+        users.remove(user);
+        user.setMarry(Marry.builder()
+                .partner(partner)
+                .id(partner.getId())
+                .date(date)
+                .build());
+        users.add(user);
+
         manager.dataBase().write();
         return user;
     }
